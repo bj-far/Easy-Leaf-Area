@@ -3,8 +3,15 @@
   "WorkspaceRootPath": "C:\\1Drive\\Repos\\Easy-Leaf-Area\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\1Drive\\Repos\\Easy-Leaf-Area\\elacanopy.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:elacanopy.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Easy-Leaf-Area||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{088D7C42-C4EC-4C50-9775-020C6335253F}|Easy-Leaf-Area.pyproj|C:\\1Drive\\Repos\\Easy-Leaf-Area\\elacanopy.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{088D7C42-C4EC-4C50-9775-020C6335253F}|Easy-Leaf-Area.pyproj|solutionrelative:elacanopy.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{088D7C42-C4EC-4C50-9775-020C6335253F}|Easy-Leaf-Area.pyproj|C:\\1Drive\\Repos\\Easy-Leaf-Area\\Easy-Leaf-Area.pyproj||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|9a46bc86-34cb-4597-83e5-498e3bdba20a",
+      "RelativeMoniker": "D:0:0:{088D7C42-C4EC-4C50-9775-020C6335253F}|Easy-Leaf-Area.pyproj|solutionrelative:Easy-Leaf-Area.pyproj||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|9a46bc86-34cb-4597-83e5-498e3bdba20a"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,23 +21,39 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Easy-Leaf-Area",
+              "DocumentMoniker": "C:\\1Drive\\Repos\\Easy-Leaf-Area\\Easy-Leaf-Area.pyproj",
+              "RelativeDocumentMoniker": "Easy-Leaf-Area.pyproj",
+              "ToolTip": "C:\\1Drive\\Repos\\Easy-Leaf-Area\\Easy-Leaf-Area.pyproj*",
+              "RelativeToolTip": "Easy-Leaf-Area.pyproj*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-07-17T05:32:25.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "elacanopy.py",
               "DocumentMoniker": "C:\\1Drive\\Repos\\Easy-Leaf-Area\\elacanopy.py",
               "RelativeDocumentMoniker": "elacanopy.py",
               "ToolTip": "C:\\1Drive\\Repos\\Easy-Leaf-Area\\elacanopy.py",
               "RelativeToolTip": "elacanopy.py",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAgAAAA",
+              "ViewState": "AQIAANQBAAAAAAAAAAAUwNsBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-07-17T02:02:14.946Z",
+              "WhenOpened": "2024-07-17T03:11:27.46Z",
               "EditorCaption": ""
             }
           ]

@@ -1,27 +1,33 @@
 from __future__ import absolute_import
 from __future__ import print_function
+from ctypes.wintypes import INT
 import os, sys
 
+import argparse
 
 #from Tkinter import Frame, Tk, Label, Button, Scale, HORIZONTAL, Checkbutton, IntVar
 from six.moves.tkinter import *
 from six.moves.tkinter_filedialog import *
 from PIL import Image, ImageStat, ImageDraw, ImageFont
 from PIL import TiffImagePlugin
-
+from PIL import ImageOps
 from PIL import ImageTk
+
+import numpy
 
 import scipy
 from scipy import ndimage
 from six.moves import map
 from six.moves import range
+
+
 #import matplotlib.pyplot as plt
 
 
 def Show_pic(pic):	
 	
 	im = pic.copy()
-	im.thumbnail((800,800), Image.ANTIALIAS)
+	im.thumbnail((800,800), Image.LANCZOS)
 
 	imtk=ImageTk.PhotoImage(im)
 
@@ -36,6 +42,7 @@ def brightness(curFile):
    stat = ImageStat.Stat(im)
    return stat.mean[0]
 #def con_comp(concom, minPart)
+
 
 def Pixel_check(curFile, dirF, file, keepdata):
 	pic = Image.open(curFile)
@@ -55,8 +62,8 @@ def Pixel_check(curFile, dirF, file, keepdata):
 	
 	speedP=speedPscale.get()		
 	xsize, ysize = pic.size
-	xsize=xsize/speedP
-	ysize=ysize/speedP
+	xsize=int(xsize/speedP)
+	ysize=int(ysize/speedP)
 	pic=pic.resize((xsize,ysize))
 	pic2=pic2.resize((xsize,ysize))
 	picr=picr.resize((xsize,ysize))
@@ -98,9 +105,11 @@ def Pixel_check(curFile, dirF, file, keepdata):
 	if (delBack.get()):
 		for i in backpix:
 			pixels[i] = (255,255,255)
-	flat = scipy.misc.fromimage(pic2,flatten=1)
-	flatr= scipy.misc.fromimage(picr,flatten=1)
-	
+	#rather than use scipy.misc to get grayscale images, use ImageOps and convert to numpy array		
+	flat = numpy.array(ImageOps.grayscale(pic2))
+	flatr = numpy.array(ImageOps.grayscale(picr))
+
+
 	blobs, leaves = ndimage.label(flat)
 	blobsr, scales = ndimage.label(flatr)	
 	print("Number of blobs: ", leaves)
@@ -379,8 +388,8 @@ def auto_Settings():
 	#imgdata = pic.load()
 	speedP=8		
 	xsize, ysize = pic.size
-	xsize=xsize/speedP
-	ysize=ysize/speedP
+	xsize=int(xsize/speedP)
+	ysize=int(ysize/speedP)
 	pic=pic.resize((xsize,ysize))
 	xsize, ysize = pic.size
 	print(xsize,"x", ysize)
@@ -464,137 +473,154 @@ def auto_Settings():
 def auto_Sing():		
 	auto_Settings()
 	sing_Meas()
+
+def show_UI():
 	
-main = Tk()
-main.title("Canopy Area")
+	main = Tk()
+	main.title("Canopy Area")
 
 
-Frame1 = Frame(main)
-Frame1.grid (row= 1, column = 1, rowspan = 15)
+	Frame1 = Frame(main)
+	Frame1.grid (row= 1, column = 1, rowspan = 15)
 
 
-runsingbut = Button(Frame1, text ="Analyze with current settings", command = lambda: single_LA(0))
+	runsingbut = Button(Frame1, text ="Analyze with current settings", command = lambda: single_LA(0))
 
-saveresults = Button(Frame1, text ="Save analysis", command = lambda:single_LA(1))
+	saveresults = Button(Frame1, text ="Save analysis", command = lambda:single_LA(1))
 
-SObut = Button(main, text ="Open output csv file", command = show_Output)
+	SObut = Button(main, text ="Open output csv file", command = show_Output)
 
-singbut = Button(Frame1, text = "Open an image", command = chos_file)
-singlabel = Label(Frame1)
-
-
-Batchlabel = Label(Frame1)
-Batchlabel.configure (text ="Batch Processing:")
-
-dirS ="C:/"
-Sbut = Button(Frame1, text = "Select batch source Folder", command = S_dir)
-Slabel = Label(Frame1)
-Slabel.configure (text ="C:/")
-
-dirF ="C:/"
-Fbut = Button(Frame1, text = "Select batch output Folder", command = F_dir)
-Flabel = Label(Frame1)
-Flabel.configure (text ="C:/")
-
-CSbut = Button(Frame1, text ="Start Batch with current settings", command = check_Sett)
+	singbut = Button(Frame1, text = "Open an image", command = chos_file)
+	singlabel = Label(Frame1)
 
 
-Frame3 = Frame(main)
-Frame3.grid (row= 1, column = 3, rowspan = 7)
+	Batchlabel = Label(Frame1)
+	Batchlabel.configure (text ="Batch Processing:")
+
+	dirS ="C:/"
+	Sbut = Button(Frame1, text = "Select batch source Folder", command = S_dir)
+	Slabel = Label(Frame1)
+	Slabel.configure (text ="C:/")
+
+	dirF ="C:/"
+	Fbut = Button(Frame1, text = "Select batch output Folder", command = F_dir)
+	Flabel = Label(Frame1)
+	Flabel.configure (text ="C:/")
+
+	CSbut = Button(Frame1, text ="Start Batch with current settings", command = check_Sett)
 
 
-minG =100
-minGscale = Scale(Frame3, from_=0, to=255, label="Leaf minimum Green RGB value:", orient=HORIZONTAL, tickinterval = 50, length = 200, variable = minG )
-minGscale.set(25)
-
-minR =200
-minRscale = Scale(Frame3, from_=0, to=255, label="Scale minimum Red RGB value:", orient=HORIZONTAL, tickinterval = 50, length = 200, variable = minR )
-minRscale.set(225)
-
-ratG =1.2
-ratGscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Leaf Green Ratio: (G/R)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratG )
-ratGscale.set(1.05)
-
-ratGb =1.35
-ratGbscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Leaf Green Ratio: (G/B)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratGb )
-ratGbscale.set(1.07)
-
-ratR =1.3
-ratRscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Scale Red Ratio: (R/G & R/B)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratR )
-ratRscale.set(1.95)
-
-speedP =1
-speedPscale = Scale(Frame3, from_=1, to=8, resolution = 1, label="Processing Speed:", orient=HORIZONTAL, tickinterval = 1, length = 150, variable = speedP )
-speedPscale.set(4)
-
-minPsize =500
-minPscale = Scale(Frame3, from_=1, to=5000, resolution = 10, label="Minimum Leaf Size (pixels):", orient=HORIZONTAL, tickinterval = 1000, length = 200, variable = minPsize )
-minPscale.set(301)
-#flipPic = IntVar()
-
-#C1 = Checkbutton(Frame1, text = "Flip image horizontal", variable = flipPic)
-#flipPic.get()
-
-#FieldPic = IntVar()
-#CField = Checkbutton(Frame1, text = "Canopy auto settings algorithm", variable = FieldPic)
-#FieldPic.get()
-
-noRed = IntVar()
-C2 = Checkbutton(Frame1, text = "No Red Scale", variable = noRed)
-C2.select()
-noRed.get()
-
-delBack = IntVar()
-C3 = Checkbutton(Frame1, text = "Delete background", variable = delBack)
-delBack.get()
-
-labpix = IntVar()
-C5 = Checkbutton(main, text = "Label Pixels", variable = labpix)
-labpix.get()
+	Frame3 = Frame(main)
+	Frame3.grid (row= 1, column = 3, rowspan = 7)
 
 
-autosetbut = Button(Frame1, text ="Auto settings", command = auto_Sing)
+	minG =100
+	minGscale = Scale(Frame3, from_=0, to=255, label="Leaf minimum Green RGB value:", orient=HORIZONTAL, tickinterval = 50, length = 200, variable = minG )
+	minGscale.set(25)
 
-autocheck = IntVar()
-C4 = Checkbutton(Frame1, text = "Use auto settings", variable = autocheck)
-autocheck.get()
+	minR =200
+	minRscale = Scale(Frame3, from_=0, to=255, label="Scale minimum Red RGB value:", orient=HORIZONTAL, tickinterval = 50, length = 200, variable = minR )
+	minRscale.set(225)
+
+	ratG =1.2
+	ratGscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Leaf Green Ratio: (G/R)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratG )
+	ratGscale.set(1.05)
+
+	ratGb =1.35
+	ratGbscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Leaf Green Ratio: (G/B)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratGb )
+	ratGbscale.set(1.07)
+
+	ratR =1.3
+	ratRscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Scale Red Ratio: (R/G & R/B)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratR )
+	ratRscale.set(1.95)
+
+	speedP =1
+	speedPscale = Scale(Frame3, from_=1, to=8, resolution = 1, label="Processing Speed:", orient=HORIZONTAL, tickinterval = 1, length = 150, variable = speedP )
+	speedPscale.set(4)
+
+	minPsize =500
+	minPscale = Scale(Frame3, from_=1, to=5000, resolution = 10, label="Minimum Leaf Size (pixels):", orient=HORIZONTAL, tickinterval = 1000, length = 200, variable = minPsize )
+	minPscale.set(301)
+	#flipPic = IntVar()
+
+	#C1 = Checkbutton(Frame1, text = "Flip image horizontal", variable = flipPic)
+	#flipPic.get()
+
+	#FieldPic = IntVar()
+	#CField = Checkbutton(Frame1, text = "Canopy auto settings algorithm", variable = FieldPic)
+	#FieldPic.get()
+
+	noRed = IntVar()
+	C2 = Checkbutton(Frame1, text = "No Red Scale", variable = noRed)
+	C2.select()
+	noRed.get()
+
+	delBack = IntVar()
+	C3 = Checkbutton(Frame1, text = "Delete background", variable = delBack)
+	delBack.get()
+
+	labpix = IntVar()
+	C5 = Checkbutton(main, text = "Label Pixels", variable = labpix)
+	labpix.get()
 
 
+	autosetbut = Button(Frame1, text ="Auto settings", command = auto_Sing)
 
-singbut.grid(row=1, column =1, pady=5)
-autosetbut.grid(row=2, column =1, pady=5)
-#CField.grid(row=3, column =1, pady=5)
-runsingbut.grid(row=4, column =1, pady=5)
-saveresults.grid(row=5, column =1, pady=5)
-#C1.grid(row=6, column =1, pady=5)
-C2.grid(row = 7, column =1, pady=5)
-C3.grid(row=8, column = 1, pady=5)
-
-Batchlabel.grid(row=9, column=1, pady=10)
-Sbut.grid(row=10, column=1, pady=5)
-Slabel.grid(row=11, column=1, pady=5)
-Fbut.grid(row=12, column=1, pady=5)
-Flabel.grid(row=13, column=1, pady=5)
-CSbut.grid(row=14, column=1, pady=5)
-C4.grid(row=15, column = 1, pady=5)
+	autocheck = IntVar()
+	C4 = Checkbutton(Frame1, text = "Use auto settings", variable = autocheck)
+	autocheck.get()
 
 
 
-minGscale.grid(row=1, column =3)
-ratGscale.grid(row=2, column =3)
-ratGbscale.grid(row=3, column =3)
-minRscale.grid(row=4, column =3)
-ratRscale.grid(row=5, column =3)
-speedPscale.grid(row=6, column=3)
-minPscale.grid(row=7, column = 3)
+	singbut.grid(row=1, column =1, pady=5)
+	autosetbut.grid(row=2, column =1, pady=5)
+	#CField.grid(row=3, column =1, pady=5)
+	runsingbut.grid(row=4, column =1, pady=5)
+	saveresults.grid(row=5, column =1, pady=5)
+	#C1.grid(row=6, column =1, pady=5)
+	C2.grid(row = 7, column =1, pady=5)
+	C3.grid(row=8, column = 1, pady=5)
+
+	Batchlabel.grid(row=9, column=1, pady=10)
+	Sbut.grid(row=10, column=1, pady=5)
+	Slabel.grid(row=11, column=1, pady=5)
+	Fbut.grid(row=12, column=1, pady=5)
+	Flabel.grid(row=13, column=1, pady=5)
+	CSbut.grid(row=14, column=1, pady=5)
+	C4.grid(row=15, column = 1, pady=5)
+
+
+
+	minGscale.grid(row=1, column =3)
+	ratGscale.grid(row=2, column =3)
+	ratGbscale.grid(row=3, column =3)
+	minRscale.grid(row=4, column =3)
+	ratRscale.grid(row=5, column =3)
+	speedPscale.grid(row=6, column=3)
+	minPscale.grid(row=7, column = 3)
 
 
 
 
-filelabel= Label (main, height =1, width=100)
+	filelabel= Label (main, height =1, width=100)
 
-filelabel.configure (text = " ")
-filelabel.grid (row =1, column =2)
-SObut.grid(row=3, column =2)
-C5.grid(row=4, column = 2)
-main.mainloop()
+	filelabel.configure (text = " ")
+	filelabel.grid (row =1, column =2)
+	SObut.grid(row=3, column =2)
+	C5.grid(row=4, column = 2)
+	main.mainloop()
+
+
+
+parser = argparse.ArgumentParser(description="Measure some leaf canopy areas.")
+parser.add_argument("--dir",metavar="d",help="input directory")
+parser.add_argument("--out",metavar="o",help="output filename")
+args = parser.parse_args()
+
+print("input directory: ", args.dir)
+
+if args.dir: 
+	print("A path was passed")
+else:
+	show_UI()
+

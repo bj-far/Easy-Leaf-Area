@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Easy-Leaf-Area", "Easy-Leaf-Area.pyproj", "{088D7C42-C4EC-4C50-9775-020C6335253F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{088D7C42-C4EC-4C50-9775-020C6335253F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{088D7C42-C4EC-4C50-9775-020C6335253F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9494949A-6745-42C0-A872-498AD2518E96}
+	EndGlobalSection
+EndGlobal

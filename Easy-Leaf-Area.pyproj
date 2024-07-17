@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{088d7c42-c4ec-4c50-9775-020c6335253f}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>elacanopy.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <CommandLineArguments>--dir "C:\1Drive\FAR\2024\Projects\UOM2312-001RTX_Winter Wheats\Gnarwarre\photos\20240717\plan"</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Arabidopsis photos\IMG_0708.jpg" />
+    <Content Include="Arabidopsis photos\IMG_0709.jpg" />
+    <Content Include="Arabidopsis photos\IMG_0710.jpg" />
+    <Content Include="Arabidopsis photos\IMG_1539.jpg" />
+    <Content Include="Arabidopsis photos\IMG_1540.jpg" />
+    <Content Include="Arabidopsis photos\IMG_1617.jpg" />
+    <Content Include="Arabidopsis photos\IMG_1618.jpg" />
+    <Content Include="Arabidopsis photos\IMG_1980.jpg" />
+    <Content Include="Arabidopsis photos\IMG_1985.jpg" />
+    <Content Include="DistortionSheet.jpg" />
+    <Content Include="ELAinstructions.txt" />
+    <Content Include="IMG_1618.jpg" />
+    <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ela.py" />
+    <Compile Include="elacanopy.py" />
+    <Compile Include="elaMac2023.py" />
+    <Compile Include="elaMac2024.py" />
+    <Compile Include="elascanlength.py" />
+    <Compile Include="elaScanlengthMac2023.py" />
+    <Compile Include="elaScanlengthMac2024.py" />
+    <Compile Include="elascanner.py" />
+    <Compile Include="elascannerblue.py" />
+    <Compile Include="elaScannerWin2023.py" />
+    <Compile Include="elaWin2023.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Arabidopsis photos" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

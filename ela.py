@@ -19,7 +19,7 @@ from six.moves import map
 from six.moves import range
 def Show_pic(pic):	
 	im = pic.copy()
-	im.thumbnail((800,800), Image.ANTIALIAS)
+	im.thumbnail((800,800), Image.LANCZOS)
 	imtk=ImageTk.PhotoImage(im)
 	label = Label(image=imtk, height =600, width = 800)
 	label.image= imtk
@@ -87,8 +87,8 @@ def Pixel_check(curFile, dirF, file):
 	if (delBack.get()):
 		for i in backpix:
 			pixels[i] = (255,255,255)
-	flat = scipy.misc.fromimage(pic2,flatten=1)
-	flatr= scipy.misc.fromimage(picr,flatten=1)
+	flat = imageio.imread.fromimage(pic2,flatten=1)
+	flatr= imageio.imread.fromimage(picr,flatten=1)
 	
 	blobs, leaves = ndimage.label(flat)
 	blobsr, scales = ndimage.label(flatr)	
