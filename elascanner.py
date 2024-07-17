@@ -1,9 +1,11 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import os, sys
 
 
 #from Tkinter import Frame, Tk, Label, Button, Scale, HORIZONTAL, Checkbutton, IntVar
-from Tkinter import *
-from tkFileDialog import *
+from six.moves.tkinter import *
+from six.moves.tkinter_filedialog import *
 from PIL import Image, ImageStat, ImageDraw, ImageFont, TiffImagePlugin, ImageTk
 
 
@@ -13,6 +15,8 @@ from scipy import polyval, polyfit, ndimage
 from pylab import polyfit, polyval
 
 import numpy as np
+from six.moves import map
+from six.moves import range
 def Show_pic(pic):	
 	im = pic.copy()
 	im.thumbnail((800,800), Image.ANTIALIAS)
@@ -27,13 +31,13 @@ def Pixel_check(curFile, dirF, file):
 	pic2= Image.open(curFile)
 	picr= Image.open(curFile)
 	if (rotPic.get()):
-		print "Rotating picture 180"
+		print("Rotating picture 180")
 		pic = pic.rotate(180)
 	if (flipPic.get()):	
-		print "Flipping picture"
+		print("Flipping picture")
 		pic = pic.transpose(Image.FLIP_LEFT_RIGHT)
 	imgdata = pic.load()
-	print file," loaded"
+	print(file," loaded")
 	
 	speedP=speedPscale.get()		
 	xsize, ysize = pic.size
@@ -43,7 +47,7 @@ def Pixel_check(curFile, dirF, file):
 	pic2=pic2.resize((xsize,ysize))
 	picr=picr.resize((xsize,ysize))
 	xsize, ysize = pic.size
-	print xsize,"x", ysize
+	print(xsize,"x", ysize)
 	#minG=minGscale.get()
 	minR=minRscale.get()
 	#minR = 30
@@ -196,7 +200,7 @@ def Pixel_check(curFile, dirF, file):
 			cnt=cnt+1
 		leafprint= ', '.join(map(str, largeleaf))
 	else:
-		print "NO CONNECTED COMPONENT ANALYSIS"
+		print("NO CONNECTED COMPONENT ANALYSIS")
 		for i in leafpix:
 			pixels[i] = (0,255,0)
 		leafprint = "No connected component analysis"
@@ -205,7 +209,7 @@ def Pixel_check(curFile, dirF, file):
 	scalesize = SSscale.get()
 
 	if scalesize ==0:
-		print "No scale.  Leaf areas not to scale"
+		print("No scale.  Leaf areas not to scale")
 		#scalesize =1
 	leafarea = float(gCnt)/float(rCnt)*scalesize
 	Show_pic(pic)
@@ -215,7 +219,7 @@ def Pixel_check(curFile, dirF, file):
 	return gCnt, rCnt, pic, pixdata
 	
 def test_LA():
-	print "Measuring..."
+	print("Measuring...")
 	global chosfile
 	global dirF
 	
@@ -229,7 +233,7 @@ def test_LA():
 		rCnt+=1
 	scalesize = SSscale.get()
 	if scalesize ==0:
-		print "No scale.  Leaf area not to scale."
+		print("No scale.  Leaf area not to scale.")
 		#######
 		####
 		######
@@ -248,11 +252,11 @@ def test_LA():
 
 	Pixlabel.grid(row =2, column =2)
 
-	print "Finished processing image"	
+	print("Finished processing image")	
 
 
 def single_LA():
-	print "Measuring..."
+	print("Measuring...")
 	global chosfile
 	global dirF
 
@@ -283,15 +287,15 @@ def single_LA():
 			f.write("\n")
 	except:
 		open (dirF+'/leafarea.csv', "w")
-		print "creating new output file"
+		print("creating new output file")
 		with open(highlightfile, "a") as f:
 			f.write("filename,total green pixels,red pixels (4 cm^2),leaf area cm^2, Component green pixels:")
 			f.write("\n")
 	save_Output(highlightfile, file, pixdata, pic, dirF)
-	print "Finished processing image"
+	print("Finished processing image")
 
 def run_LA():
-	print "Measuring..."
+	print("Measuring...")
 	global dirS
 	global dirF
 	global chosfile
@@ -340,7 +344,7 @@ def run_LA():
 		Pixlabel.grid(row =2, column =2)
 		highlightfile = dirF+'/leafarea.csv'
 		save_Output(highlightfile, file, pixdata, pic, dirF)
-	print "Finished processing images"
+	print("Finished processing images")
 	
 def S_dir():
 	global dirS
@@ -351,7 +355,7 @@ def F_dir():
 	dirF = askdirectory()
 	Flabel.configure(text = dirF)
 def check_Sett():
-	print "Batch processing"
+	print("Batch processing")
 	run_LA()
 def chos_file():
 	global chosfile
@@ -366,12 +370,12 @@ def chos_file():
 	Pixlabel = Label(main, height = 1, width = 60)
 	Pixlabel.configure (text = "  ")
 	Pixlabel.grid(row =2, column =2)
-	print "loaded   "+chosfile
+	print("loaded   "+chosfile)
 
 def chos_calib():
 	global choscalib
 	choscalib = askopenfilename(filetypes=[("comma-delimited","*.csv")])
-	print "loading calib file"
+	print("loading calib file")
 	with open(choscalib) as csvfile:
 		#next(csvfile) # ignore header
 		a = [row.strip().split(',') for row in csvfile]
@@ -407,9 +411,9 @@ def chos_calib():
 	mmg=m
 	bmg=b			
 	
-	print "min G equation:",mg, "x+", bg,"\n G/R equation:", mgr,"x+",bgr,"\n G/B equation:",mgb, "x+",bgb
-	print "min R equation:",mmr, "x+", bmr,"\n R/G&R/B equation:", mmg,"x+",bmg
-	print "Loaded calib file"
+	print("min G equation:",mg, "x+", bg,"\n G/R equation:", mgr,"x+",bgr,"\n G/B equation:",mgb, "x+",bgb)
+	print("min R equation:",mmr, "x+", bmr,"\n R/G&R/B equation:", mmg,"x+",bmg)
+	print("Loaded calib file")
 	return mg,bg,mgr,bgr,mgb,bgb, mmr, bmr, mmg, bmg	
 	
 def load_calib():
@@ -422,7 +426,7 @@ def load_calib():
 		y = [float(i[3]) for i in a]
 		(m,b) =polyfit(x,y,1)
 		####################
-		print sum((polyval(polyfit(x,y,1),x)-y)**2)/(len(x))
+		print(sum((polyval(polyfit(x,y,1),x)-y)**2)/(len(x)))
 		####################
 		mg=m
 		bg=b
@@ -454,7 +458,7 @@ def load_calib():
 		bmg=b		
 		
 		
-		print "loaded calib"
+		print("loaded calib")
 	except:
 		mg= 1.223
 		bg=-111
@@ -467,23 +471,23 @@ def load_calib():
 		mmg=0.134
 		bmg=0.782
 		
-		print "calib file not found"
-		print "Set to default arabidopsis values"
+		print("calib file not found")
+		print("Set to default arabidopsis values")
 		
 	return mg,bg,mgr,bgr,mgb,bgb, mmr, bmr, mmg, bmg	
 	
 def sing_Meas():
-	print "Measuring image"
+	print("Measuring image")
 	test_LA()
 def show_Output():
 	global dirF
-	print dirF
-	print "Opening output file in default application"
+	print(dirF)
+	print("Opening output file in default application")
 	outputfile = 'start '+dirF+'/leafarea.csv'
 	os.system(outputfile)
 
 def save_Output(highlightfile, file, pixdata, pic, dirF):
-	print "save output"
+	print("save output")
 	with open(highlightfile, "a") as f:
 		f.write(pixdata)
 	tifffile = file.replace('.jpg', '.tiff')
@@ -497,7 +501,7 @@ def auto_Settings(WhatData):
 	ysize=ysize/speedP
 	pic=pic.resize((xsize,ysize))
 	xsize, ysize = pic.size
-	print xsize,"x", ysize
+	print(xsize,"x", ysize)
 	ratG=2
 	ratGb=1.8
 	minG = 75
@@ -531,7 +535,7 @@ def auto_Settings(WhatData):
 			minR = 0.99*minR
 		if lpcnt >10:
 			cnt =(pixMinGreen+10)
-	print minR, ratR, "to select >",pixMinGreen," scale pixels after", lpcnt, "loops"
+	print(minR, ratR, "to select >",pixMinGreen," scale pixels after", lpcnt, "loops")
 	ravg=0
 	rgavg=0
 	rbavg=0
@@ -556,14 +560,14 @@ def auto_Settings(WhatData):
 	else:
 		minRscale.set(255)	
 		ratRscale.set(2)
-		print "No Scale detected"
+		print("No Scale detected")
 	gavg=1
 	gravg=1 
 	bravg=1 
 	
 	ConsData = [gavg, gravg, bravg, ravg, rgavg]
 	#print ConsData, "Values can be added to calib file"		
-	print ravg, mmrset, bmrset, (mmrset*ravg+bmrset)
+	print(ravg, mmrset, bmrset, (mmrset*ravg+bmrset))
 	#ratGbscale.set(0.334*bravg+0.534)
 	return ConsData
 

@@ -1,4 +1,6 @@
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import sys
 from tkinter import *
@@ -9,6 +11,8 @@ import tkinter as tk
 from scipy import ndimage
 import numpy as np
 from numpy import polyfit, polyval
+from six.moves import map
+from six.moves import range
 
 def Show_pic(pic):
 	im = pic.copy()
@@ -33,7 +37,7 @@ def Pixel_check(curFile, dirF, file):
 		print ("Flipping picture")
 		pic = pic.transpose(Image.FLIP_LEFT_RIGHT)
 	imgdata = pic.load()
-	print (file, " loaded")
+	print((file, " loaded"))
 
 	speedP=speedPscale.get()
 	xsize, ysize = pic.size
@@ -43,7 +47,7 @@ def Pixel_check(curFile, dirF, file):
 	pic2=pic2.resize((int(xsize),int(ysize)))
 	picr=picr.resize((int(xsize),int(ysize)))
 	xsize, ysize = pic.size
-	print (xsize,"x", ysize)
+	print((xsize,"x", ysize))
 	minG=minGscale.get()
 	minR=minRscale.get()
 	ratG=ratGscale.get()
@@ -409,7 +413,7 @@ def chos_file():
 	Pixlabel = Label(main, height = 1, width = 60)
 	Pixlabel.configure (text = "  ")
 	Pixlabel.grid(row =2, column =2)
-	print ("loaded   "+chosfile)
+	print(("loaded   "+chosfile))
 
 def chos_calib():
 	global choscalib
@@ -450,8 +454,8 @@ def chos_calib():
 	mmg=m
 	bmg=b
 
-	print ("min G equation:",mg, "x+", bg,"\n G/R equation:", mgr,"x+",bgr,"\n G/B equation:",mgb, "x+",bgb)
-	print ("min R equation:",mmr, "x+", bmr,"\n R/G&R/B equation:", mmg,"x+",bmg)
+	print(("min G equation:",mg, "x+", bg,"\n G/R equation:", mgr,"x+",bgr,"\n G/B equation:",mgb, "x+",bgb))
+	print(("min R equation:",mmr, "x+", bmr,"\n R/G&R/B equation:", mmg,"x+",bmg))
 	print ("Loaded calib file")
 	return mg,bg,mgr,bgr,mgb,bgb, mmr, bmr, mmg, bmg
 
@@ -465,7 +469,7 @@ def load_calib():
 		y = [float(i[3]) for i in a]
 		(m,b) =polyfit(x,y,1)
 		####################
-		print (sum((polyval(polyfit(x,y,1),x)-y)**2)/(len(x)))
+		print((sum((polyval(polyfit(x,y,1),x)-y)**2)/(len(x))))
 		####################
 		mg=m
 		bg=b
@@ -544,7 +548,7 @@ def auto_Settings(WhatData):
 	ysize=ysize/speedP
 	pic=pic.resize((int(xsize),int(ysize)))
 	xsize, ysize = pic.size
-	print (xsize,"x", ysize)
+	print((xsize,"x", ysize))
 	ratG=2
 	ratGb=1.8
 	minG = 75
@@ -572,7 +576,7 @@ def auto_Settings(WhatData):
 			cnt =(pixMinGreen+10)
 			print ("OOPS NOT ENOUGH LEAF PIXELS")
 
-	print (minG, ratG, ratGb, "to select >",pixMinGreen," leaf pixels after", lpcnt, "loops")
+	print((minG, ratG, ratGb, "to select >",pixMinGreen," leaf pixels after", lpcnt, "loops"))
 	gavg=0
 	gravg=0
 	bravg=0
@@ -621,7 +625,7 @@ def auto_Settings(WhatData):
 			minR = 0.99*minR
 		if lpcnt >10:
 			cnt =(pixMinGreen+10)
-	print (minR, ratR, "to select >",pixMinGreen," scale pixels after", lpcnt, "loops")
+	print((minR, ratR, "to select >",pixMinGreen," scale pixels after", lpcnt, "loops"))
 	ravg=0
 	rgavg=0
 	rbavg=0
@@ -649,7 +653,7 @@ def auto_Settings(WhatData):
 		print ("No Scale detected")
 	ConsData = [gavg, gravg, bravg, ravg, rgavg]
 	#print ConsData, "Values can be added to calib file"
-	print (ravg, mmrset, bmrset, (mmrset*ravg+bmrset))
+	print((ravg, mmrset, bmrset, (mmrset*ravg+bmrset)))
 	#ratGbscale.set(0.334*bravg+0.534)
 	return ConsData
 

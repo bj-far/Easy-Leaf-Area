@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import os, sys
 
 
@@ -19,6 +21,8 @@ from scipy import polyval, polyfit, ndimage
 from pylab import polyfit, polyval
 
 import numpy as np
+from six.moves import map
+from six.moves import range
 def Show_pic(pic):
 	im = pic.copy()
 	im.thumbnail((800,800), Image.ANTIALIAS)
@@ -40,7 +44,7 @@ def Pixel_check(curFile, dirF, file):
 		print ("Flipping picture")
 		pic = pic.transpose(Image.FLIP_LEFT_RIGHT)
 	imgdata = pic.load()
-	print (file, " loaded")
+	print((file, " loaded"))
 	###################
 	totleaflength=0
 	###################
@@ -52,7 +56,7 @@ def Pixel_check(curFile, dirF, file):
 	pic2=pic2.resize((int(xsize),int(ysize)))
 	picr=picr.resize((int(xsize),int(ysize)))
 	xsize, ysize = pic.size
-	print (xsize,"x", ysize)
+	print((xsize,"x", ysize))
 	#minG=minGscale.get()
 	minR=minRscale.get()
 	#ratG=ratGscale.get()
@@ -425,7 +429,7 @@ def Pixel_check(curFile, dirF, file):
 				print ("Total length in mm (Only if your scale is square)")
 
 
-		print (int(totleaflength))
+		print((int(totleaflength)))
 				##########
 		#largeleaf.append(int(totleaflength))
 		leafprint= ', '.join(map(str, largeleaf))
@@ -691,7 +695,7 @@ def chos_file():
 	Pixlabel = Label(main, height = 1, width = 60)
 	Pixlabel.configure (text = "  ")
 	Pixlabel.grid(row =2, column =2)
-	print ("loaded   "+chosfile)
+	print(("loaded   "+chosfile))
 
 def chos_calib():
 	global choscalib
@@ -732,8 +736,8 @@ def chos_calib():
 	mmg=m
 	bmg=b
 
-	print ("min G equation:",mg, "x+", bg,"\n G/R equation:", mgr,"x+",bgr,"\n G/B equation:",mgb, "x+",bgb)
-	print ("min R equation:",mmr, "x+", bmr,"\n R/G&R/B equation:", mmg,"x+",bmg)
+	print(("min G equation:",mg, "x+", bg,"\n G/R equation:", mgr,"x+",bgr,"\n G/B equation:",mgb, "x+",bgb))
+	print(("min R equation:",mmr, "x+", bmr,"\n R/G&R/B equation:", mmg,"x+",bmg))
 	print ("Loaded calib file")
 	return mg,bg,mgr,bgr,mgb,bgb, mmr, bmr, mmg, bmg
 
@@ -747,7 +751,7 @@ def load_calib():
 		y = [float(i[3]) for i in a]
 		(m,b) =polyfit(x,y,1)
 		####################
-		print (sum((polyval(polyfit(x,y,1),x)-y)**2)/(len(x)))
+		print((sum((polyval(polyfit(x,y,1),x)-y)**2)/(len(x))))
 		####################
 		mg=m
 		bg=b
@@ -826,7 +830,7 @@ def auto_Settings(WhatData):
 	ysize=ysize/speedP
 	pic=pic.resize((int(xsize),int(ysize)))
 	xsize, ysize = pic.size
-	print (xsize,"x", ysize)
+	print((xsize,"x", ysize))
 	#ratG=2
 	#ratGb=1.8
 	thresW = 75
@@ -861,7 +865,7 @@ def auto_Settings(WhatData):
 			minR = 0.99*minR
 		if lpcnt >10:
 			cnt =(pixMinGreen+10)
-	print (minR, ratR, "to select >",pixMinGreen," scale pixels after", lpcnt, "loops")
+	print((minR, ratR, "to select >",pixMinGreen," scale pixels after", lpcnt, "loops"))
 	ravg=0
 	rgavg=0
 	rbavg=0
@@ -891,7 +895,7 @@ def auto_Settings(WhatData):
 	ConsData = [ravg, rgavg]
     
 	#print ConsData, "Values can be added to calib file"
-	print (ravg, mmrset, bmrset, (mmrset*ravg+bmrset))
+	print((ravg, mmrset, bmrset, (mmrset*ravg+bmrset)))
 	#ratGbscale.set(0.334*bravg+0.534)
 	return ConsData
 
