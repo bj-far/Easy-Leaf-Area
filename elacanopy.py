@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 from ctypes.wintypes import INT
-import os, sys
+import os, sys, shutil
 
 import argparse
 
@@ -59,7 +59,8 @@ def Pixel_check(curFile, dirF, file, keepdata):
 	
 	
 	#Show_pic(pic)
-	
+
+
 	speedP=speedPscale.get()		
 	xsize, ysize = pic.size
 	xsize=int(xsize/speedP)
@@ -270,16 +271,23 @@ def single_LA(keepdata):
 
 	print("Finished processing image")
 
-def run_LA():
+def run_LA(srcDir, finDir):
 	print("Measuring...")
 	global dirS
 	global dirF
 	global chosfile
 
+	if srcDir: dirS = srcDir
+	else: dirS = os.path.abspath(dirS)
+	
+	if finDir: dirF = finDir 
+	else: dirF = os.path.abspath(dirF)
+
+	if os.path.exists(dirF): shutil.rmtree(dirF)
+	os.makedirs(dirF)
+
 	keepdata=1
 	#get absolute path
-	dirS = os.path.abspath(dirS)
-	dirF = os.path.abspath(dirF)
 	#get list of files in dirS
 	filesInCurDir = os.listdir(dirS)
 	try:
@@ -346,9 +354,11 @@ def F_dir():
 def check_Sett():
 	print("Batch processing")
 	run_LA()
-def chos_file():
+def chos_file(fl):
 	global chosfile
-	chosfile = askopenfilename(filetypes=[("JPEG", "*.jpg; *.jpe; *.jpeg"), ("TIFF", "*.tiff; *.tif")])
+	if fl: chosfile = fl 
+	else :
+		chosfile = askopenfilename(filetypes=[("JPEG", "*.jpg; *.jpe; *.jpeg"), ("TIFF", "*.tiff; *.tif")])
 
 	pic = Image.open(chosfile)
 	xsize, ysize = pic.size
@@ -474,10 +484,12 @@ def auto_Sing():
 	auto_Settings()
 	sing_Meas()
 
-def show_UI():
-	
+def show_UI(cmdline):
+	global main, autocheck
+	global speedPscale, minGscale, minRscale, ratGscale, ratGbscale, ratRscale, noRed, delBack, labpix, minPscale
+
 	main = Tk()
-	main.title("Canopy Area")
+	main.title("Canopy Area - command line version")
 
 
 	Frame1 = Frame(main)
@@ -608,7 +620,7 @@ def show_UI():
 	filelabel.grid (row =1, column =2)
 	SObut.grid(row=3, column =2)
 	C5.grid(row=4, column = 2)
-	main.mainloop()
+	if not cmdline : main.mainloop()
 
 
 
@@ -621,6 +633,8 @@ print("input directory: ", args.dir)
 
 if args.dir: 
 	print("A path was passed")
+	show_UI(TRUE)
+	run_LA(args.dir, args.dir + "/result")
 else:
 	show_UI()
 
