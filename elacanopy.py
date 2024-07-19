@@ -528,7 +528,7 @@ def show_UI(cmdline):
 
 	minG =100
 	minGscale = Scale(Frame3, from_=0, to=255, label="Leaf minimum Green RGB value:", orient=HORIZONTAL, tickinterval = 50, length = 200, variable = minG )
-	minGscale.set(25)
+	minGscale.set(15)
 
 	minR =200
 	minRscale = Scale(Frame3, from_=0, to=255, label="Scale minimum Red RGB value:", orient=HORIZONTAL, tickinterval = 50, length = 200, variable = minR )
@@ -536,11 +536,11 @@ def show_UI(cmdline):
 
 	ratG =1.2
 	ratGscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Leaf Green Ratio: (G/R)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratG )
-	ratGscale.set(1.05)
+	ratGscale.set(1.0)
 
 	ratGb =1.35
 	ratGbscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Leaf Green Ratio: (G/B)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratGb )
-	ratGbscale.set(1.07)
+	ratGbscale.set(1.02)
 
 	ratR =1.3
 	ratRscale = Scale(Frame3, from_=1, to=2, resolution = 0.01, label="Scale Red Ratio: (R/G & R/B)", orient=HORIZONTAL, tickinterval = 0.5, length = 150, variable = ratR )
@@ -548,11 +548,11 @@ def show_UI(cmdline):
 
 	speedP =1
 	speedPscale = Scale(Frame3, from_=1, to=8, resolution = 1, label="Processing Speed:", orient=HORIZONTAL, tickinterval = 1, length = 150, variable = speedP )
-	speedPscale.set(4)
+	speedPscale.set(2)
 
 	minPsize =500
 	minPscale = Scale(Frame3, from_=1, to=5000, resolution = 10, label="Minimum Leaf Size (pixels):", orient=HORIZONTAL, tickinterval = 1000, length = 200, variable = minPsize )
-	minPscale.set(301)
+	minPscale.set(60)
 	#flipPic = IntVar()
 
 	#C1 = Checkbutton(Frame1, text = "Flip image horizontal", variable = flipPic)
